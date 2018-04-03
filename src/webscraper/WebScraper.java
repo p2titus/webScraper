@@ -141,7 +141,7 @@ public class WebScraper
         }
         
         return toReturn;
-    
+    }
     
     private void writeToFileProcess(ArrayList<String> HTML, String fileName) // writes to external text file specified by the file object
     {
