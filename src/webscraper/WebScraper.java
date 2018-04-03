@@ -19,7 +19,75 @@ public class WebScraper {
      */
     public static void main(String[] args)
     {
+        final String textURL = "https://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html"; // test url: links to java doc on urlconnection objects
+    }
+    
+    private ArrayList<String> fetchHTML(String URLtoScrape)
+    { // return null if something goes wrong
+        ArrayList<String> HTML = null;
+        URL toScrFrm = null; // to Scrape From
+        URLConnection con = null; // the connection object
         
+        try
+        {
+            toScrFrm = new URL(URLtoScrape);
+        }
+        
+        catch(final MalformedURLException ex)
+        {
+            System.out.println("Failed to instantiate URL object");
+        }
+        
+        if(toScrFrm != null)
+        {
+            try
+            {
+                con = toScrFrm.openConnection();
+                HTML = scrapeTxt(con); // scraping txt from given con object
+            }
+            
+            catch(final IOException ex)
+            {
+                System.out.println("Connection failed");
+            }
+        }
+        
+        return HTML;
+    }
+    
+    private ArrayList<String> scrapeTxt(URLConnection con)
+    {
+        String inputLine = "";
+        InputStreamReader ISR = null;
+        BufferedReader BR = null;
+        ArrayList<String> HTML = new ArrayList();
+        
+        try
+        {
+            ISR = new InputStreamReader(con.getInputStream());
+            BR = new BufferedReader(ISR);
+        }
+        
+        catch(final IOException ex)
+        {
+            System.out.println("ERROR INSTANTIATING BR FROM GIVEN URL");
+        }
+        
+        if(BR != null)
+        {
+            try
+            {
+                while((inputLine = BR.readLine()) != null)
+                    HTML.add(inputLine);
+                BR.close();
+            }
+            
+            catch(final IOException ex)
+            {
+                System.out.println("ERROR READING FROM GIVEN URL");
+            }
+        }
+        return HTML;
     }
     
     private String input() // when algorithm complete, user should be able to input website of choice
