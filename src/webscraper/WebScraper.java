@@ -22,14 +22,15 @@ public class WebScraper
         final WebScraper gm = new WebScraper();
         final String testURL = "https://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html"; // test url: links to java doc on urlconnection objects
         final ArrayList HTML = gm.fetchHTML(testURL);
-        final String fileName = "/hello.txt";
-        final String currentPathway = System.getProperty("user.dir");
-        final String fullPathway = currentPathway + "/hello.txt";
+        final String fileName = "hello";
+        //final String currentPathway = System.getProperty("user.dir");
+        //final String fullPathway = currentPathway + "/hello.txt";
         
         for(int i = 0; i < HTML.size(); i++)
             System.out.println(HTML.get(i));
         
-        System.out.println(fullPathway);
+        System.out.println(fileName);
+        gm.writeToFileProcess(HTML, fileName);
     }
     
     private ArrayList<String> fetchHTML(String URLtoScrape) // top level method
@@ -121,7 +122,7 @@ public class WebScraper
     
     // top level method
     
-    private void writeToTxtFile(ArrayList<String> HTML, String fileName) // writes to external text file specified by the file object
+    private void writeToFileProcess(ArrayList<String> HTML, String fileName) // writes to external text file specified by the file object
     { // potentially not working
         final String currentDirectory = System.getProperty("user.dir");
         final String fullDirectory = currentDirectory + "/" + fileName + ".txt"; // TODO - change .txt to .html when finished testing
