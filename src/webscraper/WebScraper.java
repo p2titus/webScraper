@@ -12,21 +12,31 @@ package webscraper;
 import java.net.*;
 import java.util.ArrayList;
 import java.io.*;
-public class WebScraper {
-
+public class WebScraper
+{
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
-        final String textURL = "https://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html"; // test url: links to java doc on urlconnection objects
+        final WebScraper gm = new WebScraper();
+        final String testURL = "https://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html"; // test url: links to java doc on urlconnection objects
+        final ArrayList HTML = gm.fetchHTML(testURL);
+        final String fileName = "/hello.txt";
+        final String currentPathway = System.getProperty("user.dir");
+        final String fullPathway = currentPathway + "/hello.txt";
+        
+        for(int i = 0; i < HTML.size(); i++)
+            System.out.println(HTML.get(i));
+        
+        System.out.println(fullPathway);
     }
     
-    private ArrayList<String> fetchHTML(String URLtoScrape)
+    private ArrayList<String> fetchHTML(String URLtoScrape) // top level method
     { // return null if something goes wrong
         ArrayList<String> HTML = null;
         URL toScrFrm = null; // to Scrape From
-        URLConnection con = null; // the connection object
+        //URLConnection con = null; // the connection object
         
         try
         {
@@ -42,8 +52,8 @@ public class WebScraper {
         {
             try
             {
-                con = toScrFrm.openConnection();
-                HTML = scrapeTxt(con); // scraping txt from given con object
+                //con = toScrFrm.openConnection();
+                HTML = scrapeTxt(toScrFrm.openConnection()); // scraping txt from given con object
             }
             
             catch(final IOException ex)
@@ -109,10 +119,15 @@ public class WebScraper {
         return toReturn;
     }
     
-    private void writeToTxtFile(ArrayList<String> HTML, File toWriteTo) // writes to external text file specified by the file object
+    // top level method
+    
+    private void writeToTxtFile(ArrayList<String> HTML, String fileName) // writes to external text file specified by the file object
     { // potentially not working
+        final String currentDirectory = System.getProperty("user.dir");
+        final String fullDirectory = currentDirectory + "/" + fileName + ".txt"; // TODO - change .txt to .html when finished testing
         FileWriter FW = null;
         PrintWriter PW = null;
+        File toWriteTo = new File(fullDirectory);
         
         try
         {
