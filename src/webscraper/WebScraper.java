@@ -22,6 +22,7 @@ public class WebScraper
         final WebScraper gm = new WebScraper(); // gm = getMethod
         //final String testURL = "https://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html"; // test url: links to java doc on urlconnection objects
         String url = "http://www.bbc.co.uk/news"; // stores the user's URL (default to bbc news)
+        //url = testURL;//comment out when not needed
         //final ArrayList HTML = gm.fetchHTML(testURL);
         ArrayList HTML = null;
         String fileName = "hello"; // stores filename to write to default fileName to write to is hello in current directory
@@ -31,7 +32,7 @@ public class WebScraper
         System.out.println("Hello there");
         System.out.println("Please input the url you would like to scrape HTML from");
         
-        url = gm.input(); // TODO - check to ensure valid URL
+        //url = gm.input(); // TODO - check to ensure valid URL
         
         while(gm.isAllowedAddress(url) == false)
         {
@@ -43,7 +44,7 @@ public class WebScraper
         System.out.println("Please enter the name of the file you would like "
                 + "it to be stored in");
         
-        fileName = gm.input(); // TODO - check to ensure valid file name
+        //fileName = gm.input(); // TODO - check to ensure valid file name
         
         while(gm.isAllowedFile(fileName) == false)
         {
