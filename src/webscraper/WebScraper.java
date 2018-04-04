@@ -7,7 +7,7 @@ package webscraper;
 
 /**
  *
- * @author michaelhallam
+ * @author p2titus
  */
 import java.net.*;
 import java.util.ArrayList;
