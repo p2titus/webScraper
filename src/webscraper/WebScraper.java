@@ -21,7 +21,7 @@ public class WebScraper
     {
         final WebScraper gm = new WebScraper(); // gm = getMethod
         //final String testURL = "https://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html"; // test url: links to java doc on urlconnection objects
-        String url = "www.bbc.co.uk/news"; // stores the user's URL (default to bbc news)
+        String url = "http://www.bbc.co.uk/news"; // stores the user's URL (default to bbc news)
         //final ArrayList HTML = gm.fetchHTML(testURL);
         ArrayList HTML = null;
         String fileName = "hello"; // stores filename to write to default fileName to write to is hello in current directory
@@ -33,10 +33,23 @@ public class WebScraper
         
         url = gm.input(); // TODO - check to ensure valid URL
         
+        while(gm.isAllowedAddress(url) == false)
+        {
+            System.out.println("Please re-enter your url");
+            url = gm.input();
+        }
+        
         System.out.println("Thanks!");
-        System.out.println("Please enter the name of the file you would like it to be stored in");
+        System.out.println("Please enter the name of the file you would like "
+                + "it to be stored in");
         
         fileName = gm.input(); // TODO - check to ensure valid file name
+        
+        while(gm.isAllowedFile(fileName) == false)
+        {
+            System.out.println("Please re-enter your filename");
+            fileName = gm.input();
+        }
         
         System.out.println("Thanks!");
         
@@ -54,6 +67,39 @@ public class WebScraper
         System.out.println(fileName);
         gm.writeToFileProcess(HTML, fileName);
         */
+    }
+    
+    private boolean isAllowedAddress(String address)
+    {
+        URL toCheck = null;
+        
+        try
+        {
+            toCheck = new URL(address);
+        }
+        
+        catch(final MalformedURLException ex)
+        {
+            toCheck = null;
+        }
+        
+        return toCheck != null;
+    }
+    
+    private boolean isAllowedFile(String fileName)
+    {
+        final String currentDirectory = System.getProperty("user.dir");
+        final String fullDirectory = currentDirectory + fileName + ".html";
+        File toCheck = null;
+        boolean isAllowed = false;
+        
+        if(fullDirectory.length() < 256) // max file pathway length in windows
+        {
+            toCheck = new File(fileName);
+            isAllowed = !(toCheck.isFile()); // if file already exists, cannot write to it
+        }
+        
+        return isAllowed;
     }
     
     private ArrayList<String> fetchHTML(String URLtoScrape) // top level method - works in tandem with scrapeTxt()
